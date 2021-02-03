@@ -1,13 +1,26 @@
 import Vue from 'vue'
-import App from './App.vue'
-import './registerServiceWorker'
-import router from './router'
-import store from './store'
+import { RouterModule } from '@/modules/router'
+import { StoreModule } from '@/modules/store'
+import { CoreModule } from '@/modules/core'
+import { HomeModule } from '@/modules/home'
+import { AboutModule } from '@/modules/about'
 
-Vue.config.productionTip = false
+function bootstrap() {
+  Vue.config.productionTip = false
+  const routerModule = new RouterModule()
+  routerModule.install(Vue)
 
-new Vue({
-  router,
-  store,
-  render: h => h(App)
-}).$mount('#app')
+  const storeModule = new StoreModule()
+  storeModule.install(Vue)
+
+  const coreModule = new CoreModule(routerModule.router!, storeModule.store!)
+  coreModule.install(Vue)
+
+  const homeModule = new HomeModule(routerModule.router!, storeModule.store!)
+  homeModule.install(Vue)
+
+  const aboutModule = new AboutModule(routerModule.router!)
+  aboutModule.install(Vue)
+}
+
+bootstrap()
