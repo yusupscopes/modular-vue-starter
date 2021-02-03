@@ -10,7 +10,7 @@ export class HomeModule implements VueModule {
   constructor(private router: VueRouter, private store: Store<any>) {}
 
   install(Vue: typeof _Vue) {
-    this.router.addRoutes(homeRoutes)
+    homeRoutes.forEach(homeRoute => this.router.addRoute(homeRoute))
     this.store.registerModule([this.name], homeStore)
   }
 }
